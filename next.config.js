@@ -3,6 +3,6 @@ const nextConfig = {};
 
 module.exports = {
   images: {
-    domains: ['your-wordpress-site.com'],
+    domains: ['portal.khopanel.com'],
   },
 }
