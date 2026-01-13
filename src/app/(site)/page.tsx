@@ -119,7 +119,10 @@ const GET_HOME_DATA = `
 // --- 2. HÀM FETCH ---
 async function getHomeData() {
   try {
-    const data = await fetchAPI(GET_HOME_DATA);
+    const data = await fetchAPI(GET_HOME_DATA, { 
+      // 👇 Gắn thẻ 'home' cho trang chủ
+      tags: ['home'] 
+    });
     return data;
   } catch (error) {
     console.error("❌ Error fetching home data:", error);
