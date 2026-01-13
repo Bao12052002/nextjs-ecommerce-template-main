@@ -1,0 +1,498 @@
+[
+    {
+        "key": "group_home_page_settings_nextjs",
+        "title": "Home Page Settings (Next.js)",
+        "fields": [
+            {
+                "key": "field_tab_hero",
+                "label": "Hero Section",
+                "name": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "placement": "top",
+                "endpoint": 0
+            },
+            {
+                "key": "field_hero_title",
+                "label": "Hero Title",
+                "name": "hero_title",
+                "type": "text",
+                "instructions": "Tiêu đề lớn nhất trên banner",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_hero_subtitle",
+                "label": "Hero Subtitle",
+                "name": "hero_subtitle",
+                "type": "textarea",
+                "instructions": "Mô tả ngắn bên dưới tiêu đề",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "maxlength": "",
+                "rows": 3,
+                "new_lines": "br"
+            },
+            {
+                "key": "field_hero_image",
+                "label": "Hero Background Image",
+                "name": "hero_image",
+                "type": "image",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "preview_size": "medium",
+                "library": "all",
+                "min_width": "",
+                "min_height": "",
+                "min_size": "",
+                "max_width": "",
+                "max_height": "",
+                "max_size": "",
+                "mime_types": ""
+            },
+            {
+                "key": "field_hero_button_text",
+                "label": "Button Text",
+                "name": "hero_button_text",
+                "type": "text",
+                "instructions": "Ví dụ: Shop Now",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "Shop Now",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_hero_button_url",
+                "label": "Button Link",
+                "name": "hero_button_url",
+                "type": "text",
+                "instructions": "Ví dụ: /shop",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "/shop",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_tab_features",
+                "label": "Features (Services)",
+                "name": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "placement": "top",
+                "endpoint": 0
+            },
+            {
+                "key": "field_features_list",
+                "label": "Features List",
+                "name": "features_list",
+                "type": "repeater",
+                "instructions": "Thêm các mục như: Free Shipping, 24/7 Support...",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "collapsed": "",
+                "min": 0,
+                "max": 4,
+                "layout": "table",
+                "button_label": "Add Feature",
+                "sub_fields": [
+                    {
+                        "key": "field_feature_title",
+                        "label": "Title",
+                        "name": "title",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 1,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "maxlength": ""
+                    },
+                    {
+                        "key": "field_feature_desc",
+                        "label": "Description",
+                        "name": "description",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "maxlength": ""
+                    },
+                    {
+                        "key": "field_feature_icon",
+                        "label": "Icon Image",
+                        "name": "icon_image",
+                        "type": "image",
+                        "instructions": "Nên dùng ảnh SVG hoặc PNG nhỏ",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "return_format": "array",
+                        "preview_size": "thumbnail",
+                        "library": "all"
+                    }
+                ]
+            },
+            {
+                "key": "field_tab_promo",
+                "label": "Promo Banner",
+                "name": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "placement": "top",
+                "endpoint": 0
+            },
+            {
+                "key": "field_promo_title",
+                "label": "Promo Title",
+                "name": "promo_title",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_promo_subtitle",
+                "label": "Promo Subtitle",
+                "name": "promo_subtitle",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_promo_image",
+                "label": "Promo Image",
+                "name": "promo_image",
+                "type": "image",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "preview_size": "medium",
+                "library": "all"
+            },
+            {
+                "key": "field_promo_link",
+                "label": "Link",
+                "name": "promo_link",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "#",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_promo_btn_text",
+                "label": "Button Text",
+                "name": "promo_button_text",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "Shop Now",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_tab_testimonials",
+                "label": "Testimonials",
+                "name": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "placement": "top",
+                "endpoint": 0
+            },
+            {
+                "key": "field_testimonials_list",
+                "label": "Testimonials List",
+                "name": "testimonials_list",
+                "type": "repeater",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "collapsed": "",
+                "min": 0,
+                "max": 0,
+                "layout": "row",
+                "button_label": "Add Review",
+                "sub_fields": [
+                    {
+                        "key": "field_review_author",
+                        "label": "Author Name",
+                        "name": "author_name",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 1,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        }
+                    },
+                    {
+                        "key": "field_review_text",
+                        "label": "Review Text",
+                        "name": "review_text",
+                        "type": "textarea",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "rows": 3
+                    },
+                    {
+                        "key": "field_review_rating",
+                        "label": "Rating (1-5)",
+                        "name": "rating",
+                        "type": "number",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "50",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": 5,
+                        "min": 1,
+                        "max": 5
+                    },
+                    {
+                        "key": "field_review_avatar",
+                        "label": "Author Avatar",
+                        "name": "author_image",
+                        "type": "image",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "50",
+                            "class": "",
+                            "id": ""
+                        },
+                        "return_format": "array",
+                        "preview_size": "thumbnail",
+                        "library": "all"
+                    }
+                ]
+            },
+            {
+                "key": "field_tab_titles",
+                "label": "Section Titles",
+                "name": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "placement": "top",
+                "endpoint": 0
+            },
+            {
+                "key": "field_title_new_arrivals",
+                "label": "New Arrivals Title",
+                "name": "new_arrivals_title",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "New Arrivals"
+            },
+            {
+                "key": "field_title_best_sellers",
+                "label": "Best Sellers Title",
+                "name": "best_sellers_title",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "Best Sellers"
+            },
+             {
+                "key": "field_title_categories",
+                "label": "Categories Title",
+                "name": "categories_title",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "Shop by Category"
+            },
+             {
+                "key": "field_title_blogs",
+                "label": "Blog Section Title",
+                "name": "blog_title",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "Latest News"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "page_type",
+                    "operator": "==",
+                    "value": "front_page"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": "",
+        "show_in_rest": 0,
+        "show_in_graphql": 1,
+        "graphql_field_name": "homePageFields",
+        "map_graphql_types_from_location_rules": 0,
+        "graphql_types": ""
+    }
+]
