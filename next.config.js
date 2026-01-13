@@ -1,8 +1,17 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-module.exports = {
+const nextConfig = {
   images: {
-    domains: ['portal.khopanel.com'],
+    // Thay thế 'domains' bằng 'remotePatterns' để an toàn và linh hoạt hơn
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'portal.khopanel.com',
+        pathname: '/**',
+      },
+      // Thêm domain local nếu cần test ảnh
+      // { protocol: 'http', hostname: 'localhost' }, 
+    ],
   },
-}
+};
+
+module.exports = nextConfig;

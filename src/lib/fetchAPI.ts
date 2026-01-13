@@ -1,10 +1,13 @@
 // src/lib/fetchAPI.ts
-const API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL as string;
+const API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
 
-// 👇 Thêm tham số tags vào hàm (mặc định là mảng rỗng)
+if (!API_URL) {
+  throw new Error('Vui lòng khai báo NEXT_PUBLIC_WORDPRESS_API_URL trong file .env');
+}
+
 export async function fetchAPI(
-  query: string, 
-  { variables, tags }: { variables?: any, tags?: string[] } = {}
+  query: string,
+  { variables, tags }: { variables?: any; tags?: string[] } = {}
 ) {
   const headers = { 'Content-Type': 'application/json' };
 
