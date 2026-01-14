@@ -2,33 +2,69 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { HomePageFields } from "@/types/home-query";
+import { HomePageFields, HeroSmallBanner } from "@/types/home-query";
 import HeroFeature from "./HeroFeature";
+import HeroCarousel from "./HeroCarousel";
 
 const Hero = ({ data }: { data: HomePageFields }) => {
-  // Check an toàn
   if (!data) return null;
 
-  // --- 1. XỬ LÝ DỮ LIỆU BANNER CHÍNH (LEFT COLUMN) ---
-  const { heroTitle, heroSubtitle, heroButtonText, heroButtonUrl, heroImage } = data;
-  const heroImgUrl = heroImage?.node?.sourceUrl;
-  const heroImgAlt = heroImage?.node?.altText || heroTitle;
-
-  // --- 2. XỬ LÝ DỮ LIỆU FEATURES (Nếu có) ---
+  const sliderData = data.heroSlider || [];
   const features = data.featuresList || [];
+
+  // Helper để render banner nhỏ (giảm lặp code)
+  const renderSmallBanner = (bannerData: HeroSmallBanner, fallbackImg: string) => {
+    // Nếu không có dữ liệu thì không render hoặc render placeholder
+    if (!bannerData) return null;
+
+    const imgUrl = bannerData.image?.node?.sourceUrl || fallbackImg;
+    const title = bannerData.title || "Product Name";
+    const link = bannerData.link || "#";
+
+    return (
+      <div className="w-full relative rounded-[10px] bg-white p-4 sm:p-7.5 flex-1 shadow-sm hover:shadow-two transition">
+        <div className="flex items-center justify-between gap-4 h-full">
+          <div>
+            <h2 className="max-w-[153px] font-semibold text-dark text-xl mb-2">
+              <Link href={link}>{title}</Link>
+            </h2>
+            <div>
+              <p className="font-medium text-dark-4 text-custom-sm mb-1.5">
+                {bannerData.subtitle || "Limited Offer"}
+              </p>
+              <span className="flex items-center gap-3">
+                <span className="font-medium text-heading-5 text-red">
+                  {bannerData.salePrice}
+                </span>
+                {bannerData.regularPrice && (
+                  <span className="font-medium text-xl text-dark-4 line-through">
+                    {bannerData.regularPrice}
+                  </span>
+                )}
+              </span>
+            </div>
+          </div>
+          <div className="shrink-0 relative w-[100px] h-[130px]">
+             <Image
+                src={imgUrl}
+                alt={title}
+                fill
+                className="object-contain"
+             />
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <section className="overflow-hidden pb-10 lg:pb-12.5 xl:pb-15 pt-57.5 sm:pt-45 lg:pt-30 xl:pt-51.5 bg-[#E5EAF4]">
       <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
         <div className="flex flex-wrap gap-5">
           
-          {/* =========================================
-              CỘT TRÁI (LỚN): Dữ liệu Động từ WordPress 
-             ========================================= */}
+          {/* --- CỘT TRÁI (SLIDER) --- */}
           <div className="xl:max-w-[757px] w-full">
-            <div className="relative z-1 rounded-[10px] bg-white overflow-hidden h-full flex items-center">
-              
-              {/* Bg shapes (Giữ nguyên) */}
+            <div className="relative z-1 rounded-[10px] bg-white overflow-hidden h-full">
               <Image
                 src="/images/hero/hero-bg.png"
                 alt="hero bg shapes"
@@ -36,129 +72,26 @@ const Hero = ({ data }: { data: HomePageFields }) => {
                 width={534}
                 height={520}
               />
-
-              {/* Thay thế HeroCarousel bằng nội dung động */}
-              <div className="flex flex-col sm:flex-row items-center justify-between w-full p-6 sm:p-10 relative z-10">
-                
-                {/* Text Content */}
-                <div className="w-full sm:w-1/2 mb-8 sm:mb-0">
-                  <h1 className="mb-4 text-2xl font-bold text-dark sm:text-3xl lg:text-4xl xl:text-[42px] leading-tight">
-                    {heroTitle || "New Collection"}
-                  </h1>
-                  <p className="mb-8 text-base text-body-color max-w-[300px]">
-                    {heroSubtitle || "Discover our new arrivals..."}
-                  </p>
-                  <Link
-                    href={heroButtonUrl || "/shop"}
-                    className="inline-flex items-center justify-center rounded-md bg-blue px-7 py-3 text-center text-base font-medium text-white hover:bg-blue-dark transition duration-300"
-                  >
-                    {heroButtonText || "Shop Now"}
-                  </Link>
-                </div>
-
-                {/* Hero Image */}
-                <div className="w-full sm:w-1/2 flex justify-center sm:justify-end">
-                  <div className="relative w-[250px] h-[250px] sm:w-[320px] sm:h-[320px]">
-                    {heroImgUrl ? (
-                      <Image
-                        src={heroImgUrl}
-                        alt={heroImgAlt}
-                        fill
-                        className="object-contain"
-                        priority // Ưu tiên tải ảnh Hero
-                      />
-                    ) : (
-                      // Placeholder giữ chỗ nếu chưa có ảnh
-                      <div className="w-full h-full bg-gray-100 rounded-full flex items-center justify-center text-gray-400">
-                        No Image
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-              </div>
+              <HeroCarousel slides={sliderData} />
             </div>
           </div>
 
-          {/* =========================================
-              CỘT PHẢI (NHỎ): Banner Tĩnh (Giữ nguyên code gốc)
-              (Vì chưa có trường ACF cho phần này)
-             ========================================= */}
+          {/* --- CỘT PHẢI (2 BANNER NHỎ) --- */}
           <div className="xl:max-w-[393px] w-full">
             <div className="flex flex-col sm:flex-row xl:flex-col gap-5 h-full">
               
-              {/* Box 1 */}
-              <div className="w-full relative rounded-[10px] bg-white p-4 sm:p-7.5 flex-1 shadow-sm hover:shadow-2 transition">
-                <div className="flex items-center justify-between gap-4 h-full">
-                  <div>
-                    <h2 className="max-w-[153px] font-semibold text-dark text-xl mb-2">
-                      <Link href="/shop"> iPhone 14 Plus & 14 Pro Max </Link>
-                    </h2>
-                    <div>
-                      <p className="font-medium text-dark-4 text-custom-sm mb-1.5">
-                        limited time offer
-                      </p>
-                      <span className="flex items-center gap-3">
-                        <span className="font-medium text-heading-5 text-red">
-                          $699
-                        </span>
-                        <span className="font-medium text-xl text-dark-4 line-through">
-                          $999
-                        </span>
-                      </span>
-                    </div>
-                  </div>
-                  <div className="shrink-0">
-                    <Image
-                      src="/images/hero/hero-02.png"
-                      alt="mobile image"
-                      width={100}
-                      height={130}
-                      className="object-contain"
-                    />
-                  </div>
-                </div>
-              </div>
+              {/* Banner 1 (Trên) */}
+              {renderSmallBanner(data.heroRight1, "/images/hero/hero-02.png")}
 
-              {/* Box 2 */}
-              <div className="w-full relative rounded-[10px] bg-white p-4 sm:p-7.5 flex-1 shadow-sm hover:shadow-2 transition">
-                <div className="flex items-center justify-between gap-4 h-full">
-                  <div>
-                    <h2 className="max-w-[153px] font-semibold text-dark text-xl mb-2">
-                      <Link href="/shop"> Wireless Headphone </Link>
-                    </h2>
-                    <div>
-                      <p className="font-medium text-dark-4 text-custom-sm mb-1.5">
-                        limited time offer
-                      </p>
-                      <span className="flex items-center gap-3">
-                        <span className="font-medium text-heading-5 text-red">
-                          $699
-                        </span>
-                        <span className="font-medium text-xl text-dark-4 line-through">
-                          $999
-                        </span>
-                      </span>
-                    </div>
-                  </div>
-                  <div className="shrink-0">
-                    <Image
-                      src="/images/hero/hero-01.png"
-                      alt="headphone image"
-                      width={100}
-                      height={130}
-                      className="object-contain"
-                    />
-                  </div>
-                </div>
-              </div>
+              {/* Banner 2 (Dưới) */}
+              {renderSmallBanner(data.heroRight2, "/images/hero/hero-01.png")}
 
             </div>
           </div>
+
         </div>
       </div>
 
-      {/* Hero Features (Truyền data xuống nếu component này hỗ trợ) */}
       <HeroFeature features={features} />
     </section>
   );

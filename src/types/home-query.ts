@@ -15,14 +15,35 @@ export interface ProductNode {
   averageRating?: number;
   reviewCount?: number;
 }
-
+export interface PostNode {
+  id: string;
+  title: string;
+  slug: string;
+  date: string;
+  excerpt: string;
+  featuredImage: {
+    node: {
+      sourceUrl: string;
+      altText: string;
+    };
+  };
+}
 export interface TestimonialItem {
   authorName: string;
   reviewText: string;
   rating: number;
   authorImage: { node: WPImage };
 }
-
+export interface HeroSmallBanner {
+  title: string;
+  subtitle: string;
+  salePrice: string;
+  regularPrice: string;
+  link: string;
+  image: {
+    node: WPImage;
+  };
+}
 export interface HomePageFields {
   // Hero
   heroTitle: string;
@@ -30,9 +51,13 @@ export interface HomePageFields {
   heroButtonText: string;
   heroButtonUrl: string;
   heroImage: { node: WPImage };
-<<<<<<< HEAD
+  heroSlider: HeroSlide[];
+  heroRight1: HeroSmallBanner;
+  heroRight2: HeroSmallBanner;
+
+  // Features List
+  featuresList: FeatureItem[];
   
-=======
   // --- BIG BANNER ---
   promoTitle: string;
   promoSubtitle: string;
@@ -56,7 +81,6 @@ export interface HomePageFields {
   promoS2Description: string;
   promoS2BtnText: string;
   promoS2Link: string;
->>>>>>> 5f17d927f34972e0b8b65f30622c21488c344c29
   // Promo
   promoTitle: string;
   promoSubtitle: string;
@@ -71,15 +95,23 @@ export interface HomePageFields {
   newArrivalsTitle: string;
   bestSellersTitle: string;
 }
-
+export interface FeatureItem {
+  title: string;
+  description: string;
+  iconImage: {
+    node: {
+      sourceUrl: string;
+      altText?: string;
+    };
+  };
+}
 export interface HomePageData {
   page: {
     homePageFields: HomePageFields;
   };
   newArrivals: { nodes: ProductNode[] };
   bestSellers: { nodes: ProductNode[] };
-<<<<<<< HEAD
-=======
+  latestPosts: { nodes: PostNode[] };
 }
 
 export interface CategoryNode {
@@ -103,5 +135,21 @@ export interface HomePageData {
   };
   newArrivals: { nodes: ProductNode[] };
   bestSellers: { nodes: ProductNode[] };
->>>>>>> 5f17d927f34972e0b8b65f30622c21488c344c29
+}
+
+export interface WPImage {
+  sourceUrl: string;
+  altText: string;
+}
+
+export interface HeroSlide {
+  discountPercent: string;
+  discountLabel: string;
+  title: string;
+  description: string;
+  buttonText: string;
+  buttonUrl: string;
+  image: {
+    node: WPImage;
+  };
 }

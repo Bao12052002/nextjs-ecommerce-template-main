@@ -9,6 +9,8 @@ import PromoBanner from "./PromoBanner";
 import BestSeller from "./BestSeller";
 import Testimonials from "./Testimonials";
 import { HomePageData } from "@/types/home-query";
+import Newsletter from "../Common/Newsletter";
+import LatestBlog from "./LatestBlog";
 
 const Home = ({ data }: { data: HomePageData }) => {
   // Check an toàn cấp cao nhất
@@ -42,6 +44,13 @@ const Home = ({ data }: { data: HomePageData }) => {
 
       {/* 7. Testimonials */}
       <Testimonials data={homePageFields} />
+      
+      {/* 8. Latest Blog Posts */}
+      <LatestBlog posts={data.latestPosts?.nodes || []} />
+
+      {/* 9. Newsletter Signup */}
+      <Newsletter />
+
     </main>
   );
 };

@@ -1,55 +1,101 @@
-import React from "react";
-import SectionTitle from "@/components/Common/SectionTitle";
-import { HomePageFields } from "@/types/home-query";
+"use client";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { useCallback, useRef } from "react";
 import Image from "next/image";
+import { HomePageFields } from "@/types/home-query";
+import SingleItem from "./SingleItem";
+
+// Import Swiper styles
+import "swiper/css/navigation";
+import "swiper/css";
 
 const Testimonials = ({ data }: { data: HomePageFields }) => {
-  const list = data.testimonialsList || [];
+  const sliderRef = useRef<any>(null);
 
+  // Lấy danh sách từ data prop
+  const list = data?.testimonialsList || [];
+
+  const handlePrev = useCallback(() => {
+    if (!sliderRef.current) return;
+    sliderRef.current.swiper.slidePrev();
+  }, []);
+
+  const handleNext = useCallback(() => {
+    if (!sliderRef.current) return;
+    sliderRef.current.swiper.slideNext();
+  }, []);
+
+  // Nếu không có dữ liệu thì ẩn section
   if (list.length === 0) return null;
 
   return (
-    <section className="py-20 lg:py-28 bg-gray-light relative z-10">
-      <div className="container">
-        <SectionTitle
-          title="Our Clients Say"
-          paragraph="Hear what our customers have to say about us."
-          center
-        />
+    <section className="overflow-hidden pb-16.5 bg-gray-light pt-20"> {/* Thêm bg-gray-light để nổi bật thẻ trắng */}
+      <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
+        <div className="">
+          <div className="swiper testimonial-carousel common-carousel p-5">
+            
+            {/* */}
+            <div className="mb-10 flex items-center justify-between">
+              <div>
+                <span className="flex items-center gap-2.5 font-medium text-dark mb-1.5">
+                  <Image
+                    src="/images/icons/icon-08.svg"
+                    alt="icon"
+                    width={17}
+                    height={17}
+                  />
+                  Testimonials
+                </span>
+                <h2 className="font-semibold text-xl xl:text-heading-5 text-dark">
+                  User Feedbacks
+                </h2>
+              </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {list.map((item, index) => (
-            <div key={index} className="p-8 bg-white rounded-lg shadow-one">
-              <div className="flex items-center mb-6 border-b border-body-color border-opacity-10 pb-6">
-                <div className="relative w-[60px] h-[60px] overflow-hidden rounded-full mr-4">
-                  {item.authorImage?.node?.sourceUrl ? (
-                    <Image
-                      src={item.authorImage.node.sourceUrl}
-                      alt={item.authorName}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gray-300"></div>
-                  )}
+              {/* Navigation Buttons */}
+              <div className="flex items-center gap-3">
+                <div onClick={handlePrev} className="swiper-button-prev cursor-pointer hover:bg-primary hover:text-white transition rounded-full flex items-center justify-center w-10 h-10 border border-gray-300">
+                  <svg className="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fillRule="evenodd" clipRule="evenodd" d="M15.4881 4.43057C15.8026 4.70014 15.839 5.17361 15.5694 5.48811L9.98781 12L15.5694 18.5119C15.839 18.8264 15.8026 19.2999 15.4881 19.5695C15.1736 19.839 14.7001 19.8026 14.4306 19.4881L8.43056 12.4881C8.18981 12.2072 8.18981 11.7928 8.43056 11.5119L14.4306 4.51192C14.7001 4.19743 15.1736 4.161 15.4881 4.43057Z" fill=""/>
+                  </svg>
                 </div>
-                <div>
-                   <h4 className="text-lg font-semibold text-dark">
-                      {item.authorName}
-                   </h4>
-                   {/* Render sao đánh giá */}
-                   <div className="flex text-yellow-500 text-sm">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <span key={i} className={i < item.rating ? "text-yellow" : "text-gray-300"}>
-                           ★
-                        </span>
-                      ))}
-                   </div>
+
+                <div onClick={handleNext} className="swiper-button-next cursor-pointer hover:bg-primary hover:text-white transition rounded-full flex items-center justify-center w-10 h-10 border border-gray-300">
+                  <svg className="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fillRule="evenodd" clipRule="evenodd" d="M8.51192 4.43057C8.82641 4.161 9.29989 4.19743 9.56946 4.51192L15.5695 11.5119C15.8102 11.7928 15.8102 12.2072 15.5695 12.4881L9.56946 19.4881C9.29989 19.8026 8.82641 19.839 8.51192 19.5695C8.19743 19.2999 8.161 18.8264 8.43057 18.5119L14.0122 12L8.43057 5.48811C8.161 5.17361 8.19743 4.70014 8.51192 4.43057Z" fill=""/>
+                  </svg>
                 </div>
               </div>
-              <p className="text-base text-body-color">{item.reviewText}</p>
             </div>
-          ))}
+
+            {/* Swiper Slider */}
+            <Swiper
+              ref={sliderRef}
+              slidesPerView={3}
+              spaceBetween={20}
+              loop={true} // Bật loop để lướt liên tục
+              breakpoints={{
+                // Mobile
+                0: {
+                  slidesPerView: 1,
+                },
+                // Tablet
+                768: {
+                  slidesPerView: 2,
+                },
+                // Desktop
+                1200: {
+                  slidesPerView: 3,
+                },
+              }}
+            >
+              {list.map((item, index) => (
+                <SwiperSlide key={index} className="h-auto"> 
+                  {/* Truyền prop 'testimonial' cho component con */}
+                  <SingleItem testimonial={item} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
         </div>
       </div>
     </section>

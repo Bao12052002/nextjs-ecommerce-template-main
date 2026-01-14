@@ -19,31 +19,56 @@ const GET_HOME_DATA = `
       },
       
       homePageFields {
-        heroTitle
-        heroSubtitle
-        heroButtonText
-        heroButtonUrl
+        # --- XÓA CÁC DÒNG CŨ: heroTitle, heroSubtitle... ---
         
-        # SỬA: Đổi 'nodes' thành 'node'
-        heroImage {
-          node {
-            sourceUrl
-            altText
+        # --- THÊM MỚI: HERO SLIDER ---
+        heroSlider {
+          discountPercent
+          discountLabel
+          title
+          description
+          buttonText
+          buttonUrl
+          image {
+            node {
+              sourceUrl
+              altText
+            }
           }
         }
-        
+        heroRight1 {
+          title
+          subtitle
+          salePrice
+          regularPrice
+          link
+          image {
+            node { sourceUrl altText }
+          }
+        }
+        heroRight2 {
+          title
+          subtitle
+          salePrice
+          regularPrice
+          link
+          image {
+            node { sourceUrl altText }
+          }
+        }
+
+        # --- GIỮ NGUYÊN CÁC PHẦN KHÁC (Promo, Features...) ---
         featuresList {
           title
           description
           iconImage {
-             node {
-               sourceUrl
-               altText
-             }
+            node {
+              sourceUrl
+            }
           }
         }
         
-        # --- PROMO SECTION ---
+        # Promo Banner
         promoTitle
         promoSubtitle
         promoDescription
@@ -52,8 +77,6 @@ const GET_HOME_DATA = `
         promoImage {
           node { sourceUrl altText }
         }
-
-        # --- SMALL BANNER 1 ---
         promoS1Title
         promoS1Subtitle
         promoS1Discount
@@ -62,8 +85,6 @@ const GET_HOME_DATA = `
         promoS1Image {
           node { sourceUrl altText }
         }
-
-        # --- SMALL BANNER 2 ---
         promoS2Title
         promoS2Subtitle
         promoS2Description
@@ -72,21 +93,20 @@ const GET_HOME_DATA = `
         promoS2Image {
           node { sourceUrl altText }
         }
-        
-        testimonialsList {
-          authorName
-          reviewText
-          rating
-          authorImage {
-             node {
-               sourceUrl
-               altText
-             }
-          }
-        }
-        
+
+        # Titles
         newArrivalsTitle
         bestSellersTitle
+        
+        # Testimonials
+        testimonialsList {
+          authorName
+          rating
+          reviewText
+          authorImage {
+            node { sourceUrl altText }
+          }
+        }
       }
     }
 
@@ -99,6 +119,21 @@ const GET_HOME_DATA = `
         image {
           sourceUrl
           altText
+        }
+      }
+    }
+      latestPosts: posts(first: 3, where: { orderby: { field: DATE, order: DESC } }) {
+      nodes {
+        id
+        title
+        slug
+        date
+        excerpt
+        featuredImage {
+          node {
+            sourceUrl
+            altText
+          }
         }
       }
     }
