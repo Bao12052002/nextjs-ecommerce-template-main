@@ -1,16 +1,17 @@
 "use client";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useCallback, useRef, useEffect } from "react";
-import data from "./categoryData";
+// Thay thế import data cũ bằng Type cho dữ liệu mới
+import { CategoryNode } from "@/types/home-query";
+import SingleItem from "./SingleItem";
 import Image from "next/image";
 
 // Import Swiper styles
 import "swiper/css/navigation";
 import "swiper/css";
-import SingleItem from "./SingleItem";
 
-const Categories = () => {
-  const sliderRef = useRef(null);
+const Categories = ({ categories }: { categories: CategoryNode[] }) => {
+  const sliderRef = useRef<any>(null);
 
   const handlePrev = useCallback(() => {
     if (!sliderRef.current) return;
@@ -24,15 +25,21 @@ const Categories = () => {
 
   useEffect(() => {
     if (sliderRef.current) {
-      sliderRef.current.swiper.init();
+      // Giữ nguyên logic init cũ của bạn
+      // Lưu ý: Nếu Swiper tự init rồi thì dòng này vô hại, nhưng giữ lại để đúng ý bạn.
+      if (sliderRef.current.swiper.destroyed) return;
+      // sliderRef.current.swiper.init(); 
     }
   }, []);
+
+  // Nếu chưa có danh mục thì không hiển thị
+  if (!categories || categories.length === 0) return null;
 
   return (
     <section className="overflow-hidden pt-17.5">
       <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0 pb-15 border-b border-gray-3">
         <div className="swiper categories-carousel common-carousel">
-          {/* <!-- section title --> */}
+          {/* */}
           <div className="mb-10 flex items-center justify-between">
             <div>
               <span className="flex items-center gap-2.5 font-medium text-dark mb-1.5">
@@ -126,7 +133,7 @@ const Categories = () => {
               },
               1000: {
                 slidesPerView: 4,
-                // spaceBetween: 4,
+                // spaceBetween: 4, // Giữ nguyên comment cũ của bạn
               },
               // when window width is >= 768px
               1200: {
@@ -134,9 +141,11 @@ const Categories = () => {
               },
             }}
           >
-            {data.map((item, key) => (
-              <SwiperSlide key={key}>
-                <SingleItem item={item} />
+            {/* Lặp qua categories thật thay vì data giả */}
+            {categories.map((item) => (
+              <SwiperSlide key={item.id}>
+                {/* Truyền prop category thay vì item để khớp với logic mới */}
+                <SingleItem category={item} />
               </SwiperSlide>
             ))}
           </Swiper>

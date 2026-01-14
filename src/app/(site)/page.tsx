@@ -16,7 +16,8 @@ const GET_HOME_DATA = `
             url
           }
         }
-      }
+      },
+      
       homePageFields {
         heroTitle
         heroSubtitle
@@ -42,15 +43,34 @@ const GET_HOME_DATA = `
           }
         }
         
+        # --- PROMO SECTION ---
         promoTitle
         promoSubtitle
+        promoDescription
         promoButtonText
         promoLink
         promoImage {
-           node {
-             sourceUrl
-             altText
-           }
+          node { sourceUrl altText }
+        }
+
+        # --- SMALL BANNER 1 ---
+        promoS1Title
+        promoS1Subtitle
+        promoS1Discount
+        promoS1BtnText
+        promoS1Link
+        promoS1Image {
+          node { sourceUrl altText }
+        }
+
+        # --- SMALL BANNER 2 ---
+        promoS2Title
+        promoS2Subtitle
+        promoS2Description
+        promoS2BtnText
+        promoS2Link
+        promoS2Image {
+          node { sourceUrl altText }
         }
         
         testimonialsList {
@@ -69,6 +89,20 @@ const GET_HOME_DATA = `
         bestSellersTitle
       }
     }
+
+    productCategories(first: 6, where: { orderby: COUNT, order: DESC, hideEmpty: true }) {
+      nodes {
+        id
+        name
+        slug
+        count
+        image {
+          sourceUrl
+          altText
+        }
+      }
+    }
+    
     
     newArrivals: products(first: 8, where: { orderby: { field: DATE, order: DESC } }) {
       nodes {

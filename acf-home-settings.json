@@ -542,6 +542,124 @@
                 "placeholder": "",
                 "prepend": "",
                 "append": ""
+            },
+            {
+                "key": "field_promo_description",
+                "label": "Promo Description (Big Banner)",
+                "name": "promo_description",
+                "type": "textarea",
+                "instructions": "Mô tả cho banner lớn (VD: iPhone 14 has...)",
+                "required": 0,
+                "wrapper": { "width": "", "class": "", "id": "" },
+                "default_value": "",
+                "rows": 3
+            },
+            
+            {
+                "key": "field_promo_s1_image",
+                "label": "Small Banner 1 Image (Left)",
+                "name": "promo_s1_image",
+                "type": "image",
+                "return_format": "array",
+                "preview_size": "medium",
+                "library": "all",
+                "required": 0
+            },
+            {
+                "key": "field_promo_s1_subtitle",
+                "label": "Small Banner 1 Subtitle",
+                "name": "promo_s1_subtitle",
+                "type": "text",
+                "instructions": "VD: Foldable Motorised Treadmill",
+                "required": 0,
+                "wrapper": { "width": "50" }
+            },
+            {
+                "key": "field_promo_s1_title",
+                "label": "Small Banner 1 Title",
+                "name": "promo_s1_title",
+                "type": "text",
+                "instructions": "VD: Workout At Home",
+                "required": 0,
+                "wrapper": { "width": "50" }
+            },
+            {
+                "key": "field_promo_s1_discount",
+                "label": "Small Banner 1 Discount Text",
+                "name": "promo_s1_discount",
+                "type": "text",
+                "instructions": "VD: Flat 20% off",
+                "required": 0
+            },
+            {
+                "key": "field_promo_s1_btn_text",
+                "label": "Small Banner 1 Button Text",
+                "name": "promo_s1_btn_text",
+                "type": "text",
+                "default_value": "Grab Now",
+                "wrapper": { "width": "50" }
+            },
+            {
+                "key": "field_promo_s1_link",
+                "label": "Small Banner 1 Link",
+                "name": "promo_s1_link",
+                "type": "text",
+                "default_value": "#",
+                "wrapper": { "width": "50" }
+            },
+
+            {
+                "key": "field_promo_s2_image",
+                "label": "Small Banner 2 Image (Right)",
+                "name": "promo_s2_image",
+                "type": "image",
+                "return_format": "array",
+                "preview_size": "medium",
+                "library": "all",
+                "required": 0
+            },
+            {
+                "key": "field_promo_s2_subtitle",
+                "label": "Small Banner 2 Subtitle",
+                "name": "promo_s2_subtitle",
+                "type": "text",
+                "instructions": "VD: Apple Watch Ultra",
+                "required": 0,
+                "wrapper": { "width": "50" }
+            },
+            {
+                "key": "field_promo_s2_title",
+                "label": "Small Banner 2 Title",
+                "name": "promo_s2_title",
+                "type": "text",
+                "instructions": "VD: Up to 40% off",
+                "required": 0,
+                "wrapper": { "width": "50" }
+            },
+            {
+                "key": "field_promo_s2_description",
+                "label": "Small Banner 2 Description",
+                "name": "promo_s2_description",
+                "type": "textarea",
+                "instructions": "VD: The aerospace-grade titanium...",
+                "rows": 2,
+                "required": 0
+            },
+            {
+                "key": "field_promo_s2_btn_text",
+                "label": "Small Banner 2 Button Text",
+                "name": "promo_s2_btn_text",
+                "type": "text",
+                "default_value": "Buy Now",
+                "wrapper": { "width": "50" }
+            },
+            {
+                "key": "field_promo_s2_link",
+                "label": "Small Banner 2 Link",
+                "name": "promo_s2_link",
+                "type": "text",
+                "default_value": "#",
+                "wrapper": { "width": "50" }
             }
         ],
         "location": [
