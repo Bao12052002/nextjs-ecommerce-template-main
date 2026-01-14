@@ -1,35 +1,25 @@
-// src/components/Home/NewArrivals/index.tsx
-"use client";
 import React from "react";
-import SectionTitle from "../../Common/SectionTitle";
-import SingleProductItem from "../../Common/ProductItem";
+import SectionTitle from "@/components/Common/SectionTitle";
+import SingleItem from "@/components/Common/ProductItem"; // Đảm bảo bạn có component này
+import { ProductNode } from "@/types/home-query";
 
-// Định nghĩa lại Type cho props để tránh lỗi đỏ
-interface ProductProps {
-  products: any[]; // Tạm thời dùng any hoặc import type ProductNode
-}
-
-const NewArrivals = ({ products }: ProductProps) => {
+const NewArrivals = ({ products }: { products: ProductNode[] }) => {
   return (
-    <section className="py-10 lg:py-20">
-      <div className="mx-auto max-w-[1170px] px-4 sm:px-8 xl:px-0">
+    <section className="py-20 lg:py-28">
+      <div className="container">
         <SectionTitle
           title="New Arrivals"
           paragraph="Check out our latest collection."
           center
-          mb="50px"
         />
 
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-          {/* CHECK AN TOÀN TRƯỚC KHI MAP */}
-          {products && products.length > 0 ? (
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {products.length > 0 ? (
             products.map((product) => (
-              <SingleProductItem key={product.id} item={product} />
+              <SingleItem key={product.id} product={product} />
             ))
           ) : (
-            <div className="col-span-full text-center text-gray-500 py-10">
-              <p>Chưa có sản phẩm nào.</p>
-            </div>
+            <p className="text-center col-span-full">No products found.</p>
           )}
         </div>
       </div>

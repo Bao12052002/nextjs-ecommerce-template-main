@@ -1,34 +1,25 @@
-// src/components/Home/BestSeller/index.tsx
-"use client";
 import React from "react";
-import SectionTitle from "../../Common/SectionTitle";
-import SingleProductItem from "../../Common/ProductItem";
+import SectionTitle from "@/components/Common/SectionTitle";
+import SingleItem from "@/components/Common/ProductItem";
+import { ProductNode } from "@/types/home-query";
 
-interface ProductProps {
-  products: any[];
-}
-
-const BestSeller = ({ products }: ProductProps) => {
+const BestSeller = ({ products }: { products: ProductNode[] }) => {
   return (
-    <section className="py-10 lg:py-20 bg-gray-1">
-      <div className="mx-auto max-w-[1170px] px-4 sm:px-8 xl:px-0">
+    <section className="py-20 lg:py-28 bg-gray-50">
+      <div className="container">
         <SectionTitle
           title="Best Sellers"
           paragraph="Top selling products this week."
           center
-          mb="50px"
         />
 
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-          {/* CHECK AN TOÀN */}
-          {products && products.length > 0 ? (
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {products.length > 0 ? (
             products.map((product) => (
-              <SingleProductItem key={product.id} item={product} />
+              <SingleItem key={product.id} product={product} />
             ))
           ) : (
-            <div className="col-span-full text-center text-gray-500 py-10">
-              <p>Chưa có dữ liệu Best Sellers.</p>
-            </div>
+             <p className="text-center col-span-full">No products found.</p>
           )}
         </div>
       </div>
