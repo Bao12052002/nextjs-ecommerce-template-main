@@ -8,45 +8,6 @@ import { HomePageFields } from "@/types/home-query";
 const PromoBanner = ({ data }: { data: HomePageFields }) => {
   if (!data) return null;
 
-<<<<<<< HEAD
-  const imgUrl = data.promoImage?.node?.sourceUrl;
-  const imgAlt = data.promoImage?.node?.altText || "Promo";
-
-  return (
-    <section className="relative py-20 overflow-hidden bg-primary">
-       {/* Background Image logic nếu cần, hoặc chia 2 cột */}
-      <div className="container">
-        <div className="flex flex-wrap items-center -mx-4">
-          <div className="w-full px-4 lg:w-1/2">
-            <div className="mb-12 lg:mb-0">
-              <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl">
-                {data.promoTitle}
-              </h2>
-              <p className="mb-8 text-base text-white opacity-80">
-                {data.promoSubtitle}
-              </p>
-              <Link
-                href={data.promoLink || "#"}
-                className="inline-flex items-center justify-center px-8 py-3 text-base font-semibold text-dark bg-white rounded-md hover:bg-opacity-90 transition"
-              >
-                {data.promoButtonText}
-              </Link>
-            </div>
-          </div>
-          
-          <div className="w-full px-4 lg:w-1/2">
-             {/* Hiển thị ảnh Promo */}
-             {imgUrl && (
-               <div className="relative mx-auto aspect-[500/300] w-full max-w-[500px]">
-                 <Image
-                   src={imgUrl}
-                   alt={imgAlt}
-                   fill
-                   className="object-cover rounded-lg"
-                 />
-               </div>
-             )}
-=======
   // Helper lấy ảnh an toàn
   const getImg = (field: any) => field?.node?.sourceUrl;
 
@@ -157,7 +118,6 @@ const PromoBanner = ({ data }: { data: HomePageFields }) => {
                 {data.promoS2BtnText || "Buy Now"}
               </Link>
             </div>
->>>>>>> 5f17d927f34972e0b8b65f30622c21488c344c29
           </div>
         </div>
       </div>
