@@ -1,9 +1,10 @@
 // src/app/(site)/layout.tsx
-import "../css/euclid-circular-a-font.css";
 import "../css/style.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import "../css/euclid-circular-a-font.css";
 import { Providers } from "../providers"; // Import file vừa tạo ở Bước 1
+
 
 // Import các Client Component
 import QuickViewModal from "@/components/Common/QuickViewModal";

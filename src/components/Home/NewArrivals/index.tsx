@@ -2,14 +2,10 @@
 "use client";
 import React from "react";
 import SectionTitle from "../../Common/SectionTitle";
-import SingleProductItem from "../../Common/ProductItem";
+import SingleProductItem from "../../Common/ProductItem"; // Alias cho ProductItem
+import { Product } from "@/types/product"; // Dùng Type chuẩn
 
-// Định nghĩa lại Type cho props để tránh lỗi đỏ
-interface ProductProps {
-  products: any[]; // Tạm thời dùng any hoặc import type ProductNode
-}
-
-const NewArrivals = ({ products }: ProductProps) => {
+const NewArrivals = ({ products }: { products: Product[] }) => {
   return (
     <section className="py-10 lg:py-20">
       <div className="mx-auto max-w-[1170px] px-4 sm:px-8 xl:px-0">
@@ -21,15 +17,13 @@ const NewArrivals = ({ products }: ProductProps) => {
         />
 
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-          {/* CHECK AN TOÀN TRƯỚC KHI MAP */}
-          {products && products.length > 0 ? (
+          {products?.length > 0 ? (
             products.map((product) => (
-              <SingleProductItem key={product.id} item={product} />
+              // 👇 SỬA Ở ĐÂY: đổi item={product} thành product={product}
+              <SingleProductItem key={product.id} product={product} />
             ))
           ) : (
-            <div className="col-span-full text-center text-gray-500 py-10">
-              <p>Chưa có sản phẩm nào.</p>
-            </div>
+            <p className="col-span-full text-center py-10">No products found.</p>
           )}
         </div>
       </div>

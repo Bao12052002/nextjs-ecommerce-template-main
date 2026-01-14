@@ -26,8 +26,7 @@ const Home = ({ data }: { data: HomePageData }) => {
       {/* <Features data={homePageFields.featuresList} /> */}
 
       {/* 3. Categories (Tạm thời giữ nguyên hoặc sửa sau) */}
-      {/* <Categories /> */}
-
+      <Categories categories={data.productCategories?.nodes || []} />
       {/* 4. New Arrivals (FIX LỖI NODES Ở ĐÂY) */}
       <NewArrivals 
         products={data.newArrivals?.nodes || []} // 👈 Thêm dấu ? và || []
