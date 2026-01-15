@@ -1,12 +1,11 @@
 import React from "react";
-import ShopWithSidebar from "@/components/ShopWithSidebar";
-import { getProducts, getProductCategories } from "@/lib/fetchAPI";
+import { getProducts, getCategories } from "@/lib/fetchAPI";
 import { notFound } from "next/navigation";
 
 // Hàm kiểm tra xem slug có phải là Category không (Logic giả định)
 async function getCategoryData(slug: string) {
   // 1. Lấy danh sách category
-  const categories = await getProductCategories();
+  const categories = await getCategories();
   
   // 2. Tìm category hiện tại trong list
   const currentCategory = categories.find((cat: any) => cat.slug === slug);
@@ -27,15 +26,6 @@ export default async function DynamicRootPage({ params }: { params: { slug: stri
   // Thử lấy dữ liệu kiểu Category
   const categoryData = await getCategoryData(params.slug);
 
-  // TRƯỜNG HỢP 1: Là Danh mục sản phẩm
-  if (categoryData) {
-    return (
-      <ShopWithSidebar 
-        initialProducts={categoryData.products} 
-        categories={categoryData.categories} 
-      />
-    );
-  }
 
   // TRƯỜNG HỢP 2: Check xem có phải Page tĩnh (About, Contact) không?
   // const pageData = await getPage(params.slug);
