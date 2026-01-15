@@ -23,3 +23,25 @@ export type Product = {
   averageRating?: number;
   reviewCount?: number;
 };
+export interface ProductNode {
+  id: string;
+  databaseId?: number;
+  slug: string;
+  name: string;
+  image?: {
+    sourceUrl: string;
+  };
+  price?: string; // Giá gốc (VD: "$100")
+  regularPrice?: string;
+  salePrice?: string;
+  onSale?: boolean;
+  averageRating?: number;
+  reviewCount?: number;
+}
+
+export interface ProductCategoryNode {
+  id: string;
+  name: string;
+  slug: string;
+  count?: number; // Số lượng sản phẩm
+} 

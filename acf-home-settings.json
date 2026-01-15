@@ -11,6 +11,17 @@
                 "placement": "top"
             },
             {
+                "key": "field_header_logo",
+                "label": "Header Logo",
+                "name": "header_logo",
+                "type": "image",
+                "instructions": "Upload logo cho website (Nên dùng ảnh PNG nền trong suốt)",
+                "required": 0,
+                "return_format": "array",
+                "preview_size": "medium",
+                "library": "all"
+            },
+            {
                 "key": "field_hero_slider",
                 "label": "Hero Slider (Carousel)",
                 "name": "hero_slider",

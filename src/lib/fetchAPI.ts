@@ -33,3 +33,112 @@ export async function fetchAPI(
 
   return json.data;
 }
+export async function getMenuByLocation(location: string = "PRIMARY") {
+  const query = `
+    query GetMenuByLocation($location: MenuLocationEnum!) {
+      menuItems(where: { location: $location, parentId: "0" }) {
+        nodes {
+          id
+          label
+          path
+          childItems {
+            nodes {
+              id
+              label
+              path
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  // Biến location phải viết HOA (VD: PRIMARY, FOOTER, MOBILE)
+  const response = await fetchAPI(query, { variables: { location: location.toUpperCase() } });
+  
+  return response?.menuItems?.nodes || [];
+}
+
+// Hàm lấy Logo từ Home Page Fields
+export async function getHeaderLogo() {
+  const query = `
+    query GetHeaderLogo {
+      page(id: "/", idType: URI) {
+        homePageFields {
+          headerLogo {
+            node {
+              sourceUrl
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await fetchAPI(query);
+    return response?.page?.homePageFields?.headerLogo?.node?.sourceUrl || null;
+  } catch (error) {
+    console.error("Error fetching logo:", error);
+    return null;
+  }
+}
+
+// --- 1. Lấy danh sách Categories ---
+export async function getProductCategories() {
+  const query = `
+    query GetCategories {
+      productCategories(where: { hideEmpty: true, orderby: COUNT, order: DESC }) {
+        nodes {
+          id
+          name
+          slug
+          count
+        }
+      }
+    }
+  `;
+  const response = await fetchAPI(query);
+  return response?.productCategories?.nodes || [];
+}
+
+// --- 2. Lấy Sản Phẩm (Có lọc theo Category) ---
+export async function getProducts(categorySlug?: string) {
+  // Nếu có categorySlug thì thêm bộ lọc vào query
+  const categoryFilter = categorySlug 
+    ? `where: { category: "${categorySlug}" }` 
+    : "";
+
+  const query = `
+    query GetProducts {
+      products(first: 20, ${categoryFilter}) {
+        nodes {
+          id
+          databaseId
+          slug
+          name
+          image {
+            sourceUrl
+          }
+          ... on SimpleProduct {
+            price
+            regularPrice
+            salePrice
+            onSale
+          }
+          ... on VariableProduct {
+            price
+            regularPrice
+            salePrice
+            onSale
+          }
+          averageRating
+          reviewCount
+        }
+      }
+    }
+  `;
+
+  const response = await fetchAPI(query);
+  return response?.products?.nodes || [];
+}

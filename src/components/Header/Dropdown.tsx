@@ -1,63 +1,84 @@
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+"use client";
+import React, { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { WPMenuItem } from "@/types/menu"; // Import Type chuẩn
 
-const Dropdown = ({ menuItem, stickyMenu }) => {
-  const [dropdownToggler, setDropdownToggler] = useState(false);
+const Dropdown = ({
+  menuItem,
+  stickyMenu,
+}: {
+  menuItem: WPMenuItem;
+  stickyMenu: boolean;
+}) => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const pathUrl = usePathname();
+
+  // Xử lý đóng mở trên mobile khi click vào mũi tên/link cha
+  const handleDropdownToggle = (e: React.MouseEvent) => {
+    if (window.innerWidth < 1280) { // Breakpoint XL
+      e.preventDefault();
+      setDropdownOpen(!dropdownOpen);
+    }
+  };
 
   return (
     <li
-      onClick={() => setDropdownToggler(!dropdownToggler)}
-      className={`group relative before:w-0 before:h-[3px] before:bg-blue before:absolute before:left-0 before:top-0 before:rounded-b-[3px] before:ease-out before:duration-200 hover:before:w-full ${
-        pathUrl.includes(menuItem.title) && "before:!w-full"
-      }`}
+      className="group relative"
+      onMouseEnter={() => setDropdownOpen(true)}
+      onMouseLeave={() => setDropdownOpen(false)}
     >
-      <a
-        href="#"
-        className={`hover:text-blue text-custom-sm font-medium text-dark flex items-center gap-1.5 capitalize ${
+      <Link
+        href={menuItem.path || "#"}
+        onClick={handleDropdownToggle}
+        className={`flex items-center gap-1 hover:text-blue text-custom-sm font-medium text-dark ${
           stickyMenu ? "xl:py-4" : "xl:py-6"
-        } ${pathUrl.includes(menuItem.title) && "!text-blue"}`}
+        } ${pathUrl === menuItem.path ? "text-blue" : ""}`}
       >
-        {menuItem.title}
+        {menuItem.label}
         <svg
-          className="fill-current cursor-pointer"
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
+          className={`fill-current cursor-pointer duration-200 ease-in ${
+            dropdownOpen ? "rotate-180" : ""
+          }`}
+          width="10"
+          height="6"
+          viewBox="0 0 10 6"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M2.95363 5.67461C3.13334 5.46495 3.44899 5.44067 3.65866 5.62038L7.99993 9.34147L12.3412 5.62038C12.5509 5.44067 12.8665 5.46495 13.0462 5.67461C13.2259 5.88428 13.2017 6.19993 12.992 6.37964L8.32532 10.3796C8.13808 10.5401 7.86178 10.5401 7.67453 10.3796L3.00787 6.37964C2.7982 6.19993 2.77392 5.88428 2.95363 5.67461Z"
-            fill=""
+            d="M5.00016 0.666664L9.16683 4.83333L0.833496 4.83333L5.00016 0.666664Z"
+            transform="translate(10 6) rotate(180)"
           />
         </svg>
-      </a>
+      </Link>
 
-      {/* <!-- Dropdown Start --> */}
-      <ul
-        className={`dropdown ${dropdownToggler && "flex"} ${
-          stickyMenu
-            ? "xl:group-hover:translate-y-0"
-            : "xl:group-hover:translate-y-0"
+      {/* Dropdown Menu Box */}
+      <div
+        className={`submenu relative left-0 top-full w-[250px] rounded-sm bg-white transition-[top] duration-300 group-hover:opacity-100 xl:invisible xl:absolute xl:opacity-0 xl:shadow-md xl:group-hover:visible xl:group-hover:top-full ${
+          dropdownOpen ? "!visible !opacity-100 top-full" : ""
         }`}
       >
-        {menuItem.submenu.map((item, i) => (
-          <li key={i}>
-            <Link
-              href={item.path}
-              className={`flex text-custom-sm hover:text-blue hover:bg-gray-1 py-[7px] px-4.5 ${
-                pathUrl === item.path && "text-blue bg-gray-1"
-              } `}
-            >
-              {item.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
+        <div className="bg-white p-3 border border-gray-3 rounded-md shadow-lg">
+            <ul className="flex flex-col gap-2">
+            
+            {/* 👇 SỬA LỖI TẠI ĐÂY: Thay menuItem.submenu bằng menuItem.childItems.nodes */}
+            {menuItem.childItems?.nodes?.map((submenuItem, index) => (
+                <li key={submenuItem.id || index}>
+                <Link
+                    href={submenuItem.path}
+                    className={`block rounded py-2 px-3 text-sm font-medium text-dark hover:text-blue hover:bg-gray-50 ${
+                    pathUrl === submenuItem.path ? "text-blue bg-gray-50" : ""
+                    }`}
+                >
+                    {submenuItem.label}
+                </Link>
+                </li>
+            ))}
+
+            </ul>
+        </div>
+      </div>
     </li>
   );
 };

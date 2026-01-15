@@ -3,8 +3,8 @@ import "../css/style.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "../css/euclid-circular-a-font.css";
-import { Providers } from "../providers"; // Import file vừa tạo ở Bước 1
-
+import { Providers } from "../providers"; 
+import { getMenuByLocation, getHeaderLogo } from "@/lib/fetchAPI";
 
 // Import các Client Component
 import QuickViewModal from "@/components/Common/QuickViewModal";
@@ -13,16 +13,20 @@ import PreviewSliderModal from "@/components/Common/PreviewSlider";
 import ScrollToTop from "@/components/Common/ScrollToTop";
 import PreLoader from "@/components/Common/PreLoader"; // Nếu bạn vẫn muốn giữ preloader (tùy chọn)
 
-export default function RootLayout({
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const menuItems = await getMenuByLocation("PRIMARY");
+  // 2. Lấy Logo (Thêm dòng này)
+  const logoUrl = await getHeaderLogo();
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body>
         <Providers>
-          <Header />
+          <Header menuData={menuItems} logoUrl={logoUrl}/>
           {children}
           
           {/* Các Modal toàn cục đặt ở đây */}
@@ -37,3 +41,4 @@ export default function RootLayout({
     </html>
   );
 }
+
