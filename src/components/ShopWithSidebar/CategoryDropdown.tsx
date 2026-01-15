@@ -1,91 +1,103 @@
 "use client";
-import React, { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation"; // Dùng usePathname để so sánh link hiện tại
-import { ProductCategoryNode } from "@/types/product";
-import { getCategoryLink, getShopLink } from "@/utils/routes"; // Import hàm quản lý link
 
-const CategoryDropdown = ({ categories }: { categories: ProductCategoryNode[] }) => {
-  const [isOpen, setIsOpen] = useState(true);
-  const pathname = usePathname(); // Lấy đường dẫn hiện tại (VD: /laptop)
+import { useState } from "react";
 
-  // Link trang cửa hàng chung (VD: /san-pham)
-  const shopLink = getShopLink();
-
+const CategoryItem = ({ category }) => {
+  const [selected, setSelected] = useState(false);
   return (
-    <div className="bg-white shadow-1 rounded-lg py-4 px-5 mb-5">
-      {/* Header Dropdown */}
-      <div
-        className="flex items-center justify-between cursor-pointer mb-4"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <h3 className="font-semibold text-xl text-dark">Categories</h3>
-        <svg
-          className={`fill-current duration-200 ${isOpen ? "rotate-180" : ""}`}
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M3.6921 7.09327C3.91666 6.83119 4.31119 6.80084 4.57327 7.0254L9.99992 11.6768L15.4266 7.0254C15.6886 6.80084 16.0832 6.83119 16.3077 7.09327C16.5323 7.35535 16.5019 7.74989 16.2399 7.97445L10.4066 12.9745C10.1726 13.175 9.82728 13.175 9.59327 12.9745L3.75992 7.97445C3.49784 7.74989 3.4675 7.35535 3.6921 7.09327Z"
-            fill=""
-          />
-        </svg>
-      </div>
-
-      {/* List Categories */}
-      <div className={`flex flex-col gap-3 ${isOpen ? "block" : "hidden"}`}>
-        
-        {/* Link: All Categories */}
-        <Link
-          href={shopLink}
-          className={`flex items-center justify-between text-custom-sm group ${
-            pathname === shopLink
-              ? "text-blue font-medium"
-              : "text-dark hover:text-blue"
+    <button
+      className={`${
+        selected && "text-blue"
+      } group flex items-center justify-between ease-out duration-200 hover:text-blue `}
+      onClick={() => setSelected(!selected)}
+    >
+      <div className="flex items-center gap-2">
+        <div
+          className={`cursor-pointer flex items-center justify-center rounded w-4 h-4 border ${
+            selected ? "border-blue bg-blue" : "bg-white border-gray-3"
           }`}
         >
-          All Categories
-        </Link>
+          <svg
+            className={selected ? "block" : "hidden"}
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M8.33317 2.5L3.74984 7.08333L1.6665 5"
+              stroke="white"
+              strokeWidth="1.94437"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
 
-        {/* Link: Dynamic Categories */}
-        {categories && categories.length > 0 ? (
-          categories.map((cat) => {
-            const categoryUrl = getCategoryLink(cat.slug); // Lấy link chuẩn SEO (VD: /laptop)
-            const isActive = pathname === categoryUrl;
+        <span>{category.name}</span>
+      </div>
 
-            return (
-              <Link
-                key={cat.id}
-                href={categoryUrl}
-                className={`flex items-center justify-between text-custom-sm group ${
-                  isActive
-                    ? "text-blue font-medium"
-                    : "text-dark hover:text-blue"
-                }`}
-              >
-                {cat.name}
-                
-                {/* Count Badge */}
-                <span
-                  className={`w-5 h-5 flex items-center justify-center rounded-full border text-2xs ease-out duration-200 ${
-                    isActive
-                      ? "bg-blue border-blue text-white"
-                      : "border-gray-3 text-dark group-hover:bg-blue group-hover:border-blue group-hover:text-white"
-                  }`}
-                >
-                  {cat.count || 0}
-                </span>
-              </Link>
-            );
-          })
-        ) : (
-          <p className="text-sm text-gray-500">No categories found.</p>
-        )}
+      <span
+        className={`${
+          selected ? "text-white bg-blue" : "bg-gray-2"
+        } inline-flex rounded-[30px] text-custom-xs px-2 ease-out duration-200 group-hover:text-white group-hover:bg-blue`}
+      >
+        {category.products}
+      </span>
+    </button>
+  );
+};
+
+const CategoryDropdown = ({ categories }) => {
+  const [toggleDropdown, setToggleDropdown] = useState(true);
+
+  return (
+    <div className="bg-white shadow-1 rounded-lg">
+      <div
+        onClick={(e) => {
+          e.preventDefault();
+          setToggleDropdown(!toggleDropdown);
+        }}
+        className={`cursor-pointer flex items-center justify-between py-3 pl-6 pr-5.5 ${
+          toggleDropdown && "shadow-filter"
+        }`}
+      >
+        <p className="text-dark">Category</p>
+        <button
+          aria-label="button for category dropdown"
+          className={`text-dark ease-out duration-200 ${
+            toggleDropdown && "rotate-180"
+          }`}
+        >
+          <svg
+            className="fill-current"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M4.43057 8.51192C4.70014 8.19743 5.17361 8.161 5.48811 8.43057L12 14.0122L18.5119 8.43057C18.8264 8.16101 19.2999 8.19743 19.5695 8.51192C19.839 8.82642 19.8026 9.29989 19.4881 9.56946L12.4881 15.5695C12.2072 15.8102 11.7928 15.8102 11.5119 15.5695L4.51192 9.56946C4.19743 9.29989 4.161 8.82641 4.43057 8.51192Z"
+              fill=""
+            />
+          </svg>
+        </button>
+      </div>
+
+      {/* dropdown && 'shadow-filter */}
+      {/* <!-- dropdown menu --> */}
+      <div
+        className={`flex-col gap-3 py-6 pl-6 pr-5.5 ${
+          toggleDropdown ? "flex" : "hidden"
+        }`}
+      >
+        {categories.map((category, key) => (
+          <CategoryItem key={key} category={category} />
+        ))}
       </div>
     </div>
   );
