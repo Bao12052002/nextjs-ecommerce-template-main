@@ -87,7 +87,7 @@ export async function getHeaderLogo() {
 export async function getCategories() {
   const query = `
     query GetCategories {
-      productCategories(where: { hideEmpty: true, orderby: COUNT, order: DESC }) {
+      productCategories(first: 100, where: { hideEmpty: true, orderby: COUNT, order: DESC }) {
         nodes {
           id
           name
@@ -100,48 +100,67 @@ export async function getCategories() {
   const response = await fetchAPI(query);
   return response?.productCategories?.nodes || [];
 }
-
 // 2. Lấy sản phẩm (Hỗ trợ lọc theo Category Slug)
 export async function getProducts(categorySlug: string | null = null) {
-  // Nếu có slug -> lọc theo category, nếu không -> lấy tất cả
-  const categoryFilter = categorySlug 
-    ? `, where: { category: "${categorySlug}" }` 
-    : "";
-
-  const query = `
-    query GetProducts {
-      products(first: 20 ${categoryFilter}) {
+  // Định nghĩa các trường dữ liệu cần lấy
+  const productFields = `
+    nodes {
+      id
+      databaseId
+      slug
+      name
+      shortDescription  # <-- Thêm dòng này
+      image {
+        sourceUrl
+      }
+      galleryImages {   # <-- Thêm khối này
         nodes {
-          id
-          databaseId
-          slug
-          name
-          image {
-            sourceUrl
-          }
-          ... on SimpleProduct {
-            price
-            regularPrice
-            salePrice
-            onSale
-          }
-          ... on VariableProduct {
-            price
-            regularPrice
-            salePrice
-            onSale
-          }
-          averageRating
-          reviewCount
+          sourceUrl
         }
       }
+      ... on SimpleProduct {
+        price
+        regularPrice
+        salePrice
+        onSale
+      }
+      ... on VariableProduct {
+        price
+        regularPrice
+        salePrice
+        onSale
+      }
+      averageRating
+      reviewCount
     }
   `;
 
+  // === TRƯỜNG HỢP 1: Có Slug -> Tìm Category trước ===
+  if (categorySlug) {
+    const query = `
+      query GetProductsByCategory($slug: ID!) {
+        productCategory(id: $slug, idType: SLUG) {
+          products(first: 20) {
+            ${productFields}
+          }
+        }
+      }
+    `;
+    const response = await fetchAPI(query, { variables: { slug: categorySlug } });
+    return response?.productCategory?.products?.nodes || [];
+  }
+
+  // === TRƯỜNG HỢP 2: Lấy tất cả ===
+  const query = `
+    query GetAllProducts {
+      products(first: 20) {
+        ${productFields}
+      }
+    }
+  `;
   const response = await fetchAPI(query);
   return response?.products?.nodes || [];
 }
-
 export async function getProductBySlug(slug: string) {
   const query = `
     query GetProductBySlug($id: ID!) {
@@ -180,4 +199,23 @@ export async function getProductBySlug(slug: string) {
 
   const response = await fetchAPI(query, { variables: { id: slug } });
   return response?.product;
+}
+
+// Lấy chi tiết 1 danh mục theo Slug (để hiển thị Banner/Mô tả)
+export async function getCategoryBySlug(slug: string) {
+  const query = `
+    query GetCategoryBySlug($id: ID!) {
+      productCategory(id: $id, idType: SLUG) {
+        id
+        name
+        slug
+        description
+        image {
+          sourceUrl
+        }
+      }
+    }
+  `;
+  const response = await fetchAPI(query, { variables: { id: slug } });
+  return response?.productCategory;
 }

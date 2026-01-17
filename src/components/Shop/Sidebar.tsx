@@ -1,10 +1,8 @@
 "use client";
 import React from "react";
-// Import các dropdown khác (Bạn hãy copy file Gender, Price... từ folder cũ sang folder Shop mới)
-import CategoryDropdown from "./CategoryDropdown"; 
-// import GenderDropdown from "./GenderDropdown";
-// import PriceDropdown from "./PriceDropdown";
+import CategoryDropdown from "./CategoryDropdown";
 import { ProductCategoryNode } from "@/types/product";
+import { useRouter } from "next/navigation"; // Import useRouter
 
 const Sidebar = ({ 
   categories, 
@@ -13,6 +11,8 @@ const Sidebar = ({
   categories: ProductCategoryNode[], 
   closeSidebar?: () => void 
 }) => {
+  const router = useRouter(); // Hook để chuyển trang
+
   return (
     <>
       <div className="flex items-center justify-between lg:hidden mb-4">
@@ -21,20 +21,25 @@ const Sidebar = ({
       </div>
 
       <div className="flex flex-col gap-6">
-        {/* Filter Box Header (Optional) */}
+        {/* Filter Box Header */}
         <div className="bg-white shadow-1 rounded-lg py-4 px-5">
           <div className="flex items-center justify-between">
             <p>Filters:</p>
-            <button className="text-blue">Clean All</button>
+            {/* Logic Clean All: Chuyển về trang gốc /shop */}
+            <button 
+              onClick={() => router.push('/shop')} 
+              className="text-blue hover:underline"
+            >
+              Clean All
+            </button>
           </div>
         </div>
 
-        {/* Categories (Dữ liệu thật) */}
-        <CategoryDropdown categories={categories} />
-
-        {/* Các Filter khác (Tạm ẩn hoặc import vào nếu cần) */}
-        {/* <PriceDropdown /> */}
-        {/* <GenderDropdown genders={[]} /> */}
+        {/* Categories */}
+        <CategoryDropdown 
+            categories={categories} 
+            // Truyền hàm closeSidebar xuống để đóng khi click category (nếu cần)
+        />
       </div>
     </>
   );

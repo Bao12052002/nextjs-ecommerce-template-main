@@ -24,7 +24,7 @@ export default async function RootLayout({
   const logoUrl = await getHeaderLogo();
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body>
+      <body suppressHydrationWarning={true}>
         <Providers>
           <Header menuData={menuItems} logoUrl={logoUrl}/>
           {children}

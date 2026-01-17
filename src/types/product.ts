@@ -37,6 +37,24 @@ export interface ProductNode {
   onSale?: boolean;
   averageRating?: number;
   reviewCount?: number;
+  productCategories?: {
+    nodes: {
+      name: string;
+      slug: string;
+    }[];
+  };
+  attributes?: {
+    nodes: {
+      name: string;
+      options: string[];
+    }[];
+  };
+  productBrands?: {
+    nodes: {
+      name: string;
+      slug: string;
+    }[];
+  };
 }
 
 export interface ProductCategoryNode {

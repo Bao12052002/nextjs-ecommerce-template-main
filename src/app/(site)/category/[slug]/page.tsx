@@ -1,6 +1,7 @@
 import React from "react";
-import ShopLayout from "@/components/Shop/";
-import { getProducts, getCategories } from "@/lib/fetchAPI";
+// Import đúng tên Shop để tránh nhầm lẫn
+import Shop from "@/components/Shop/"; 
+import { getProducts, getCategories, getCategoryBySlug } from "@/lib/fetchAPI";
 import { notFound } from "next/navigation";
 
 // Type cho params
@@ -9,32 +10,34 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props) {
-  const { slug } = await params; // 👈 Await params
+  const { slug } = await params;
   return {
     title: `Category: ${slug}`,
   };
 }
 
 export default async function CategoryPage({ params }: Props) {
-  const { slug } = await params; // 👈 Await params trước khi dùng
+  const { slug } = await params;
 
-  const [products, categories] = await Promise.all([
+  // Gọi 3 API cùng lúc
+const [products, categories, categoryData] = await Promise.all([
     getProducts(slug),
     getCategories(),
+    getCategoryBySlug(slug) // Lấy thông tin chi tiết danh mục
   ]);
 
-  const isValidCategory = categories.some((cat: any) => cat.slug === slug);
-  if (!isValidCategory) {
+  if (!categoryData) {
     return notFound();
   }
 
-  const currentCategory = categories.find((c: any) => c.slug === slug);
-
   return (
-    <ShopLayout 
-      title={currentCategory?.name || "Category"}
-      products={products} 
-      categories={categories} 
+    <Shop 
+      title={categoryData.name}
+      initialProducts={products} 
+      categories={categories}
+      // Truyền thêm data xuống
+      categoryDescription={categoryData.description}
+      categoryImage={categoryData.image?.sourceUrl}
     />
   );
 }
