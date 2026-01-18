@@ -199,3 +199,34 @@ input[type='search']::-webkit-search-results-decoration {
 .range-slider__range {
   @apply !bg-blue;
 }
+/* --- Cinematic Header Animations (Apple Style) --- */
+
+/* Hiệu ứng trượt ảnh nền chậm rãi */
+@keyframes panImage {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.1) translate(-2%, 0); }
+}
+.animate-slow-pan {
+  animation: panImage 20s ease-in-out infinite alternate;
+}
+
+/* Hiệu ứng xuất hiện dần từ dưới lên */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+.animate-fade-in-up-delay-1 {
+  animation: fadeInUp 0.8s ease-out 0.2s forwards;
+  opacity: 0; /* Ẩn trước khi chạy animation */
+}
+.animate-fade-in-up-delay-2 {
+  animation: fadeInUp 0.8s ease-out 0.4s forwards;
+  opacity: 0;
+}
+.animate-fade-in-up-delay-3 {
+  animation: fadeInUp 0.8s ease-out 0.6s forwards;
+  opacity: 0;
+}

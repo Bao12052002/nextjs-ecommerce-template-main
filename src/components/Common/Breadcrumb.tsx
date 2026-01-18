@@ -1,32 +1,48 @@
-import Link from "next/link";
+// src/components/Common/Breadcrumb.tsx
 import React from "react";
+import Link from "next/link";
 
-const Breadcrumb = ({ title, pages }) => {
+export interface BreadcrumbItem {
+  label: string;
+  url: string; // Đảm bảo dữ liệu đầu vào có thuộc tính này
+}
+
+interface BreadcrumbProps {
+  pages: BreadcrumbItem[];
+  className?: string;
+}
+
+const Breadcrumb = ({ pages, className = "" }: BreadcrumbProps) => {
   return (
-    <div className="overflow-hidden shadow-breadcrumb pt-[209px] sm:pt-[155px] lg:pt-[95px] xl:pt-[165px]">
-      <div className="border-t border-gray-3">
-        <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0 py-5 xl:py-10">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <h1 className="font-semibold text-dark text-xl sm:text-2xl xl:text-custom-2">
-              {title}
-            </h1>
+    <nav className={`flex items-center text-sm text-dark-4 ${className}`}>
+      {pages.map((item, index) => (
+        <div key={index} className="flex items-center">
+          {/* Mũi tên ngăn cách */}
+          {index > 0 && (
+            <span className="mx-2 text-gray-4">
+              <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L5 5L1 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
+          )}
 
-            <ul className="flex items-center gap-2">
-              <li className="text-custom-sm hover:text-blue">
-                <Link href="/">Home /</Link>
-              </li>
-
-              {pages.length > 0 &&
-                pages.map((page, key) => (
-                  <li className="text-custom-sm last:text-blue capitalize" key={key}>
-                    {page} 
-                  </li>
-                ))}
-            </ul>
-          </div>
+          {/* Logic hiển thị */}
+          {index === pages.length - 1 ? (
+             // Phần tử cuối cùng: Luôn là text
+            <span className="font-medium text-blue">{item.label}</span>
+          ) : (
+             // Các phần tử trước đó: Kiểm tra nếu có URL thì Link, không thì Span
+             item.url ? (
+                <Link href={item.url} className="hover:text-blue transition-colors duration-200">
+                  {item.label}
+                </Link>
+             ) : (
+                <span className="text-dark-4">{item.label}</span>
+             )
+          )}
         </div>
-      </div>
-    </div>
+      ))}
+    </nav>
   );
 };
 
