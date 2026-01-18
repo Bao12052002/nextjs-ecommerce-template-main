@@ -64,7 +64,7 @@ const ModernCategoryHeader = ({
   const displayFeatures = features || defaultFeatures;
 
   return (
-    <section className="bg-white pt-32 pb-12 border-b border-slate-100">
+    <section className="bg-white pt-50 pb-12 border-b border-slate-100">
       <div className="container mx-auto px-4 xl:px-0 max-w-[1200px]">
         
         {/* 1. Breadcrumb - Tinh tế, font nhỏ */}

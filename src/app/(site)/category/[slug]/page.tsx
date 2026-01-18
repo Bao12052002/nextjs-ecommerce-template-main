@@ -95,7 +95,7 @@ export default async function CategoryPage({ params }: Props) {
             bg-white: Nền trắng che header phía sau
             min-h-screen: Đảm bảo kéo dài hết trang
         */}
-        <div className="bg-white rounded-t-[2.5rem] shadow-[0_-20px_60px_rgba(0,0,0,0.08)] border-t border-white/50 min-h-screen overflow-hidden">
+        <div className="0px_rgba(0,0,0,0.08)] border-t border-white/50 min-h-screen overflow-hidden">
           
            <div className="relative z-10 bg-white min-h-screen"> 
          
