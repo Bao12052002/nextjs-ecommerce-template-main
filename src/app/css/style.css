@@ -8,7 +8,8 @@
   }
 
   body {
-    @apply font-euclid-circular-a font-normal text-base text-dark-3 relative z-1;
+    /* Xóa "font-euclid-circular-a" ở đây */
+    @apply font-normal text-base text-dark-2 relative z-1;
   }
 }
 
