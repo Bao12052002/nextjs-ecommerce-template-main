@@ -203,19 +203,40 @@ export async function getProductBySlug(slug: string) {
 
 // Lấy chi tiết 1 danh mục theo Slug (để hiển thị Banner/Mô tả)
 export async function getCategoryBySlug(slug: string) {
-  const query = `
-    query GetCategoryBySlug($id: ID!) {
-      productCategory(id: $id, idType: SLUG) {
-        id
+  const data = await fetchAPI(
+    `
+    query CategoryBySlug($id: ID!, $idType: ProductCategoryIdType!) {
+      productCategory(id: $id, idType: $idType) {
         name
         slug
         description
         image {
           sourceUrl
         }
+        productCategorySettings {
+          cinematicSlogan
+          customDescription
+          # 👇 LẤY DỮ LIỆU REPEATER TỪ ACF
+          headerFeatures {
+            label
+            subLabel
+            icon
+          }
+        }
+        shopBottomContent {
+          shopSeoTitle
+          shopSeoContent
+          shopFaqs {
+            question
+            answer
+          }
+        }
       }
     }
-  `;
-  const response = await fetchAPI(query, { variables: { id: slug } });
-  return response?.productCategory;
+  `,
+    {
+      variables: { id: slug, idType: "SLUG" },
+    }
+  );
+  return data?.productCategory;
 }

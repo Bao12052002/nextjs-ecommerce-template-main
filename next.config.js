@@ -1,37 +1,46 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    // Thay thế 'domains' bằng 'remotePatterns' để an toàn và linh hoạt hơn
+ images: {
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'portal.khopanel.com',
         pathname: '/**',
       },
-      // Thêm domain local nếu cần test ảnh
-      // { protocol: 'http', hostname: 'localhost' }, 
     ],
   },
-async rewrites() {
+  async rewrites() {
     return [
-      // 1. Trang Cửa hàng
+      // 1. Trang Cửa hàng (Shop)
       {
         source: '/san-pham', 
         destination: '/shop', 
       },
-      // 2. Trang Sản phẩm (domain.com/p/ten-sp)
+      
+      // 2. Trang Chi tiết sản phẩm (Product)
+      // Browser hiển thị: /p/ten-san-pham
+      // Code chạy: src/app/(site)/product/[slug]/page.tsx
       {
         source: '/p/:slug',
         destination: '/product/:slug',
       },
-      // 3. 👇 QUAN TRỌNG: Ánh xạ Danh mục WooCommerce vào code xử lý
-      // Link hiển thị: /danh-muc-san-pham/panel-cach-nhiet-pu
-      // Code xử lý: src/app/[slug]/page.tsx (hoặc src/app/category/[slug]/page.tsx tùy bạn đặt)
+
+      // 3. 👇 SỬA LẠI CHUẨN Ở ĐÂY 👇
+      // Trang Danh mục sản phẩm (Category)
+      // Browser hiển thị: /danh-muc-san-pham/ten-danh-muc
+      // Code chạy: src/app/(site)/category/[slug]/page.tsx
       {
         source: '/danh-muc-san-pham/:slug', 
-        destination: '/:slug', // Trỏ về Dynamic Route gốc [slug] nơi chứa logic check Category
-        // LƯU Ý: Nếu bạn để code ở src/app/category/[slug] thì đổi thành destination: '/category/:slug'
+        destination: '/category/:slug', 
       },
+      
+      // 4. (Tùy chọn) Trang bài viết Blog hoặc Trang tĩnh
+      // Browser hiển thị: /bai-viet/ten-bai
+      // Code chạy: src/app/(site)/blogs/[slug]/page.tsx
+      {
+        source: '/bai-viet/:slug',
+        destination: '/blogs/:slug',
+      }
     ];
   },
 };

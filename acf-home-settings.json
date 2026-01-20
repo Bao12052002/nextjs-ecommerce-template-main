@@ -1,25 +1,60 @@
-{
-    "key": "group_chon_anh_san_pham",
-    "title": "Chọn ảnh hiển thị",
-    "fields": [
-        {
-            "key": "field_album_image_ids",
-            "label": "Chọn ảnh từ album option",
-            "name": "_album_image_ids",
-            "type": "checkbox",
-            "choices": [],
-            "return_format": "value",
-            "layout": "vertical"
-        }
-    ],
-    "location": [
-        [
+[
+    {
+        "key": "group_shop_bottom_content",
+        "title": "shopBottomContent",
+        "fields": [
             {
-                "param": "post_type",
-                "operator": "==",
-                "value": "product"
+                "key": "field_shop_seo_title",
+                "label": "Tiêu đề SEO (H2)",
+                "name": "shop_seo_title",
+                "type": "text",
+                "wrapper": { "width": "100%" }
+            },
+            {
+                "key": "field_shop_seo_content",
+                "label": "Bài viết chi tiết",
+                "name": "shop_seo_content",
+                "type": "wysiwyg",
+                "wrapper": { "width": "100%" }
+            },
+            {
+                "key": "field_shop_faqs",
+                "label": "Câu hỏi thường gặp (FAQ)",
+                "name": "shop_faqs",
+                "type": "repeater",
+                "layout": "row",
+                "button_label": "Thêm câu hỏi",
+                "sub_fields": [
+                    {
+                        "key": "field_faq_question",
+                        "label": "Câu hỏi",
+                        "name": "question",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_faq_answer",
+                        "label": "Trả lời",
+                        "name": "answer",
+                        "type": "textarea",
+                        "rows": 3
+                    }
+                ]
             }
-        ]
-    ],
-    "active": true
-}
+        ],
+        "location": [
+            [
+                {
+                    "param": "taxonomy",
+                    "operator": "==",
+                    "value": "product_cat"
+                }
+            ]
+        ],
+        "menu_order": 1,
+        "position": "normal",
+        "style": "default",
+        "active": true,
+        "show_in_graphql": true,
+        "graphql_field_name": "shopBottomContent"
+    }
+]
