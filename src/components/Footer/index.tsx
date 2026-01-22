@@ -87,7 +87,7 @@ const Footer = () => {
             </ul>
 
             {/* <!-- Social Links start --> */}
-            <div className="flex items-center gap-4 mt-7.5">
+            <div className="flex items-center gap-4 mt-7.5" suppressHydrationWarning={true}>
               <a
                 href="#"
                 aria-label="Facebook Social Link"

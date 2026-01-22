@@ -26,9 +26,14 @@ export async function wooGraphQL(
       credentials: "omit", 
     });
 
-    const newSession = res.headers.get("woocommerce-session");
+    // 👇 CẬP NHẬT: Lấy cả 2 loại header session phổ biến
+    const newSession = res.headers.get("woocommerce-session") || res.headers.get("x-wc-session");
+    
     if (newSession && typeof window !== "undefined") {
-      localStorage.setItem("woo-session", newSession);
+      // Chỉ lưu nếu session khác null và khác session cũ
+      if (newSession !== sessionToken) {
+          localStorage.setItem("woo-session", newSession);
+      }
     }
 
     return await res.json();
@@ -43,7 +48,7 @@ export async function wooGraphQL(
   // 3. Xử lý lỗi Session
   if (json.errors) {
     const errorMsg = json.errors[0]?.message?.toLowerCase() || "";
-    console.log("🔍 GraphQL Error:", errorMsg);
+    // console.log("🔍 GraphQL Error:", errorMsg); // Tạm tắt để đỡ rối log
 
     const isSessionError = 
       errorMsg.includes("session") || 
@@ -51,26 +56,24 @@ export async function wooGraphQL(
       errorMsg.includes("jwt"); 
 
     if (isSessionError) {
-      console.warn("⚠️ Session lỗi. Resetting...");
+      console.warn("⚠️ Session lỗi từ phía Server. Đang thử reset...");
       
       if (typeof window !== "undefined") {
         localStorage.removeItem("woo-session");
       }
 
-      // Gọi lại API lần 2
+      // Gọi lại API lần 2 (Tạo session mới)
       json = await executeQuery(null);
     }
   }
 
-  // 4. Kiểm tra lỗi cuối cùng (QUAN TRỌNG: Cập nhật phần này)
+  // 4. Kiểm tra lỗi cuối cùng
   if (json.errors) {
     console.error("❌ WooGraphQL Final Error:", json.errors);
     
     const finalMsg = json.errors[0]?.message || "";
     const msgLower = finalMsg.toLowerCase();
 
-    // 👇 SỬA LỖI: Nếu vẫn báo lỗi Session hoặc Empty Cart sau khi retry
-    // Nghĩa là session cũ đã chết, cần báo khách hàng biết để mua lại từ đầu.
     if (msgLower.includes("empty") || msgLower.includes("session")) {
         throw new Error("Phiên làm việc đã hết hạn. Giỏ hàng đã được làm mới. Vui lòng thêm lại sản phẩm.");
     }
