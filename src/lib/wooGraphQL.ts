@@ -11,7 +11,7 @@ export async function wooGraphQL(
 
   if (!API_URL) throw new Error("NEXT_PUBLIC_WORDPRESS_API_URL is missing");
 
-  // --- Hàm con thực hiện gọi API ---
+  // --- Hàm thực thi truy vấn ---
   const executeQuery = async (sessionToken: string | null) => {
     const currentHeaders = { ...headers };
     if (sessionToken) {
@@ -23,9 +23,9 @@ export async function wooGraphQL(
       headers: currentHeaders,
       body: JSON.stringify({ query, variables }),
       cache: "no-store",
+      credentials: "omit", 
     });
 
-    // Luôn cập nhật Session mới nếu Server trả về
     const newSession = res.headers.get("woocommerce-session");
     if (newSession && typeof window !== "undefined") {
       localStorage.setItem("woo-session", newSession);
@@ -37,33 +37,45 @@ export async function wooGraphQL(
   // 1. Lấy Session hiện tại
   let session = typeof window !== "undefined" ? localStorage.getItem("woo-session") : null;
 
-  // 2. Gọi lần đầu tiên
+  // 2. Gọi lần đầu
   let json = await executeQuery(session);
 
-  // 3. Xử lý lỗi Session (Token hỏng/hết hạn)
+  // 3. Xử lý lỗi Session
   if (json.errors) {
-    const isSessionError = json.errors.some((err: any) => 
-      err.message.includes("decode session token") || 
-      err.message.includes("session has expired")
-    );
+    const errorMsg = json.errors[0]?.message?.toLowerCase() || "";
+    console.log("🔍 GraphQL Error:", errorMsg);
+
+    const isSessionError = 
+      errorMsg.includes("session") || 
+      errorMsg.includes("token") || 
+      errorMsg.includes("jwt"); 
 
     if (isSessionError) {
-      console.warn("⚠️ Session lỗi hoặc hết hạn. Đang reset session...");
+      console.warn("⚠️ Session lỗi. Resetting...");
       
-      // Xóa session hỏng
       if (typeof window !== "undefined") {
         localStorage.removeItem("woo-session");
       }
 
-      // 👇 QUAN TRỌNG: Gọi lại API lần 2 không kèm Session cũ để lấy Session mới
+      // Gọi lại API lần 2
       json = await executeQuery(null);
     }
   }
 
-  // 4. Kiểm tra lỗi cuối cùng (nếu vẫn còn lỗi khác thì mới throw)
+  // 4. Kiểm tra lỗi cuối cùng (QUAN TRỌNG: Cập nhật phần này)
   if (json.errors) {
-    console.error("❌ WooGraphQL Error:", json.errors);
-    throw new Error(json.errors[0]?.message || "Internal Server Error");
+    console.error("❌ WooGraphQL Final Error:", json.errors);
+    
+    const finalMsg = json.errors[0]?.message || "";
+    const msgLower = finalMsg.toLowerCase();
+
+    // 👇 SỬA LỖI: Nếu vẫn báo lỗi Session hoặc Empty Cart sau khi retry
+    // Nghĩa là session cũ đã chết, cần báo khách hàng biết để mua lại từ đầu.
+    if (msgLower.includes("empty") || msgLower.includes("session")) {
+        throw new Error("Phiên làm việc đã hết hạn. Giỏ hàng đã được làm mới. Vui lòng thêm lại sản phẩm.");
+    }
+    
+    throw new Error(finalMsg || "Internal Server Error");
   }
 
   return json.data;

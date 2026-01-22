@@ -7,9 +7,10 @@ export interface AddressInput {
   city: string;
   state: string;
   postcode: string;
-  country: string; // "VN"
+  country: string;
   email?: string;
   phone?: string;
+  overwrite?: boolean; // 👇 THÊM DÒNG NÀY
 }
 
 export interface CheckoutInput {
@@ -17,8 +18,9 @@ export interface CheckoutInput {
   billing: AddressInput;
   shipping: AddressInput;
   shipToDifferentAddress: boolean;
-  paymentMethod: string; // "cod", "bacs", etc.
+  paymentMethod: string;
   customerNote?: string;
+  isPaid?: boolean;
 }
 
 export const initialAddress: AddressInput = {
